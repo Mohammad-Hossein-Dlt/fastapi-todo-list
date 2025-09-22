@@ -1,3 +1,5 @@
+[How it works?](#how-it-works)
+
 ENV File Parameters
 
 Put it next to the app
@@ -213,3 +215,25 @@ usecase/
 #### Note
 
 The layers are not limited to the mentioned items and can also include other related configurations.
+
+Here’s the English translation of your report:
+
+## How it works?
+
+I used both PostgreSQL and MongoDB in this mini project.
+
+The databases each have two tables or collections for users and tasks, with tasks connected to users via the `user_id` field.
+
+In PostgreSQL, this relationship is implemented as a foreign key with `ON DELETE CASCADE`. This means that when a user is deleted, their tasks are automatically deleted as well.
+
+For MongoDB, the deletion of tasks when a user is deleted is handled manually.
+
+Each user must register and log in to the app to create and store tasks. This process, along with authentication and token management, has been implemented in the app.
+
+To switch the type of database, you only need to change the `DB_STACK` value in the `.env` file.
+
+The app is also dockerized: both databases and the FastAPI application are configured in Docker Compose.
+
+For direct and easy access to the PostgreSQL database, pgAdmin is used, which is also configured in the Docker Compose file.
+
+To access the contents of the `.env` file, you can refer to the beginning of this document.
