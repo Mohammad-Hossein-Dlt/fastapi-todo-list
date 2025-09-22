@@ -1,0 +1,56 @@
+services:
+  fastapi:
+    working_dir: /app
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: fastapi_app
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - postgres-db
+      - mongo-db
+    ports:
+      - "${EXTERNAL_FASTAPI_PORT}:${INTERNAL_FASTAPI_PORT}"
+    command: ["fastapi", "run", "./src/main.py", "--port", "${INTERNAL_FASTAPI_PORT}"]
+
+  postgres-db:
+    image: postgres
+    container_name: postgres-db
+    restart: always
+    expose:
+      - 5432
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "8080:80"
+    env_file:
+      - .env
+    depends_on:
+      - postgres-db
+
+  mongo-db:
+    image: mongo
+    container_name: mongo-db
+    restart: always
+    expose:
+      - 27017
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env
+    volumes:
+      - mongo_data:/data/db
+
+
+volumes:
+  pgdata:
+  mongo_data:
