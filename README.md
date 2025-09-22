@@ -1,4 +1,6 @@
-[How it works?](#how-it-works)
+[How dose it work?](#how-dose-it-work)
+
+[How dose it deploy?](#how-dose-it-deploy)
 
 ENV File Parameters
 
@@ -218,7 +220,7 @@ The layers are not limited to the mentioned items and can also include other rel
 
 Here’s the English translation of your report:
 
-## How it works?
+## How dose it work?
 
 I used both PostgreSQL and MongoDB in this mini project.
 
@@ -237,3 +239,39 @@ The app is also dockerized: both databases and the FastAPI application are confi
 For direct and easy access to the PostgreSQL database, pgAdmin is used, which is also configured in the Docker Compose file.
 
 To access the contents of the `.env` file, you can refer to the beginning of this document.
+
+Here’s the English translation of your Docker Compose configuration description:
+
+---
+
+## How dose it deploy?
+
+**Configuring Docker Compose**
+
+**Services:**
+
+- **FastAPI app:** This is our to-do list application.
+- **MongoDB service:** Our NoSQL database, running on internal and external port `27017:27017`.
+- **PostgreSQL service:** Our SQL database, running on internal port `5432`.
+- **pgAdmin service:** Added for easier access to the PostgreSQL database. It runs on `8080:80`, meaning we connect externally through port `8080` to the internal port `80`.
+
+**Volumes:**
+Both databases have their own storage volumes defined: `pgdata` and `mongo_data`.
+
+**Environment variables:**
+All environment variables for the services are read from the `.env` file.
+
+**Restart policy:**
+All services are set with `restart: always`. This ensures that whenever a container stops, it will automatically restart.
+
+**Service dependencies:**
+
+- The database services don’t depend on any other services.
+- The FastAPI app depends on both database services. This means the databases must be fully created and running before the FastAPI app is built and started.
+- The pgAdmin service also depends on the PostgreSQL service.
+
+**FastAPI service details:**
+
+- The build process for the FastAPI service starts with the `Dockerfile` located in the root directory of the app. This file copies the app’s files and directories into the container’s work directory (`/app`) and installs the required packages from `requirements.txt`.
+- The container ports for this service are defined in the `.env` file, and the `ports` section of the Docker Compose file references these environment variables.
+- Since we can change the default port of the FastAPI app via the `.env` file, the command to run the app is placed at the end of the service definition in the Docker Compose file. This way, the application always uses the internal port defined in `.env`.
