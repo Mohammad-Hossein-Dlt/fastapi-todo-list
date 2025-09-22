@@ -218,8 +218,6 @@ usecase/
 
 The layers are not limited to the mentioned items and can also include other related configurations.
 
-Here’s the English translation of your report:
-
 ## How dose it work?
 
 I used both PostgreSQL and MongoDB in this mini project.
@@ -239,10 +237,6 @@ The app is also dockerized: both databases and the FastAPI application are confi
 For direct and easy access to the PostgreSQL database, pgAdmin is used, which is also configured in the Docker Compose file.
 
 To access the contents of the `.env` file, you can refer to the beginning of this document.
-
-Here’s the English translation of your Docker Compose configuration description:
-
----
 
 ## How dose it deploy?
 
